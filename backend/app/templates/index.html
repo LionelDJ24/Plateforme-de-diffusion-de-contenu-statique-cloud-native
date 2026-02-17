@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Plateforme Cloud de Contenu</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+  <h1>Plateforme Cloud de diffusion de contenu</h1>
+  <p>
+    Backend Flask • Azure Blob Storage • AKS • Cache {{ ttl }}s
+  </p>
+</header>
+
+<main>
+
+  <!-- SECTION API STATUS -->
+  <section>
+    <h2>Statut API</h2>
+
+    <p>
+      Cette application diffuse du contenu stocké dans Azure Blob Storage
+      via une API REST déployée sur Kubernetes.
+    </p>
+
+    <br>
+
+    <strong>Endpoints disponibles :</strong>
+    <ul>
+      <li><a href="/api/events" target="_blank">/api/events</a></li>
+      <li><a href="/api/news" target="_blank">/api/news</a></li>
+      <li><a href="/api/faq" target="_blank">/api/faq</a></li>
+      <li><a href="/healthz" target="_blank">/healthz</a></li>
+      <li><a href="/readyz" target="_blank">/readyz</a></li>
+    </ul>
+
+    <p style="margin-top:10px;">
+      Les données sont mises en cache côté serveur pour réduire
+      les accès au stockage et améliorer les performances.
+    </p>
+  </section>
+
+  <!-- EVENTS -->
+  <section>
+    <h2>Événements disponibles</h2>
+
+    <p>
+      Liste des événements récupérés depuis le stockage cloud.
+    </p>
+
+    <pre>{{ events | tojson(indent=2) }}</pre>
+  </section>
+
+  <!-- NEWS -->
+  <section>
+    <h2>Actualités</h2>
+
+    <p>
+      Contenus dynamiques lus depuis les fichiers YAML stockés dans Azure.
+    </p>
+
+    <pre>{{ news | tojson(indent=2) }}</pre>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <h2>Foire aux questions</h2>
+
+    <p>
+      Données accessibles via l'API pour intégration dans d'autres services.
+    </p>
+
+    <pre>{{ faq | tojson(indent=2) }}</pre>
+  </section>
+
+</main>
+
+<footer>
+  <small>
+    Plateforme Cloud Native — Projet Cloud Computing 2026
+  </small>
+</footer>
+
+</body>
+</html>

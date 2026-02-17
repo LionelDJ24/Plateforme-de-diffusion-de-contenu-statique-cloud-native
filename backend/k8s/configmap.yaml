@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: content-config
+  namespace: content-platform
+data:
+  BLOB_CONTAINER: "content"
+  BLOB_EVENTS: "events.json"
+  BLOB_NEWS: "news.yaml"
+  BLOB_FAQ: "faq.json"
+  CACHE_TTL_SECONDS: "60"
+  READY_CHECK_MODE: "storage"
+  PORT: "8080"
+  PYTHONUNBUFFERED: "1"

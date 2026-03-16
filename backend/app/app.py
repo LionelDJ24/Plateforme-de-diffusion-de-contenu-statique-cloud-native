@@ -10,7 +10,6 @@ from flask import Flask, jsonify, render_template
 from .cache import TTLCache
 from .storage import AzureBlobStorage, StorageClient, load_parsers
 
-
 DEFAULT_TTL_SECONDS = int(os.getenv("CACHE_TTL_SECONDS", "60"))
 
 

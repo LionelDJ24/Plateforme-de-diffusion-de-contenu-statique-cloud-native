@@ -28,15 +28,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r backend/requirements.txt
-          pip install pytest ruff
 
       - name: Lint
         run: |
-          ruff check backend/app backend/tests
+          cd backend && ruff check app tests
 
       - name: Tests
         run: |
-          cd backend && PYTHONPATH=. pytest tests
+          cd backend && python -m pytest tests
 
       - name: Login to GHCR
         uses: docker/login-action@v3
@@ -55,28 +54,26 @@ jobs:
             ${{ env.IMAGE_NAME }}:latest
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-      # ===== AKS DEPLOY (requires secrets) =====
-      - name: Azure login
-        uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Set up kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
 
-      - name: Set AKS context
-        uses: azure/aks-set-context@v4
-        with:
-          resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
-          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+      - name: Update Azure secret
+        run: |
+          kubectl -n ${{ env.K8S_NAMESPACE }} create secret generic blob-secret \
+            --from-literal=AZURE_STORAGE_CONNECTION_STRING="${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Deploy manifests
         run: |
-          # Replace image with commit SHA for traceability
           sed -i "s#ghcr.io/OWNER/REPO:latest#${{ env.IMAGE_NAME }}:${{ github.sha }}#g" backend/k8s/deployment.yaml
           kubectl apply -k backend/k8s
 
       - name: Smoke test
         run: |
           kubectl -n ${{ env.K8S_NAMESPACE }} rollout status deploy/content-api --timeout=180s
-          # Simple smoke: call service via port-forward
           kubectl -n ${{ env.K8S_NAMESPACE }} port-forward svc/content-api-svc 8080:80 &
           sleep 3
           curl -fsS http://127.0.0.1:8080/healthz

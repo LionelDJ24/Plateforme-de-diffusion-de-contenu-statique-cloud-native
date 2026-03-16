@@ -36,7 +36,7 @@ jobs:
 
       - name: Tests
         run: |
-          pytest backend/tests
+          cd backend && pytest tests
 
       - name: Login to GHCR
         uses: docker/login-action@v3

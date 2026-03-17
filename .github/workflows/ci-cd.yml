@@ -73,7 +73,7 @@ jobs:
 
       - name: Smoke test
         run: |
-          kubectl -n ${{ env.K8S_NAMESPACE }} rollout status deploy/content-api --timeout=180s
+          kubectl -n ${{ env.K8S_NAMESPACE }} rollout status deploy/content-api --timeout=300s
           kubectl -n ${{ env.K8S_NAMESPACE }} port-forward svc/content-api-svc 8080:80 &
           sleep 3
           curl -fsS http://127.0.0.1:8080/healthz

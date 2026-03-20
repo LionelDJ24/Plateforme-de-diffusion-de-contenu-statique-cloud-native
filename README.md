@@ -2,7 +2,6 @@
 
 Ce dépôt contient l’implémentation d’une plateforme de diffusion de contenu développée dans le cadre du TP de Cloud Computing. L’application permet de lire des données stockées dans Azure Blob Storage, de les exposer via une API REST et de les visualiser à travers une interface web minimale. Le projet est conteneurisé avec Docker, déployable sur Kubernetes (AKS) et automatisé via une pipeline CI/CD GitHub Actions.
 
-Un seul README est nécessaire pour le projet. Le second README éventuellement présent dans le dépôt correspondait uniquement à une explication interne du frontend intégré et peut être supprimé afin d’éviter toute confusion.
 
 Structure du projet :
 

@@ -82,4 +82,3 @@ Remarque finale :
 L’architecture reste volontairement simple afin de faciliter l’exécution et la maintenance tout en respectant les exigences pédagogiques, tout en permettant une évolution future vers une architecture plus complète si nécessaire.
 
 # Plateforme-de-diffusion-de-contenu-statique-cloud-native
-Gemini said Concevez une plateforme cloud-native sur AKS pour diffuser du contenu (JSON/YAML) via une API Flask. Stockée sur Azure Blob Storage, la solution doit être automatisée par GitHub Actions, scalable et sécurisée. Livrables : architecture, conteneurisation Docker, monitoring et rapport de justification.
